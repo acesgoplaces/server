@@ -8,7 +8,7 @@ const { SMS_API } = process.env
 const sendSMS = ({
   from,
   to,
-  message
-}) => axios.post(SMS_API, { from, to, message })
+  body
+}) => axios.post(SMS_API, { from, to, body })
 
 export default sendSMS
