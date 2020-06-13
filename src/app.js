@@ -30,7 +30,7 @@ app.get(`/user/:userId`, (req, res) => res.json(
 )
 
 // simulate incoming call
-app.post(`/call`, (req, res) => {
+app.post(`/call`, async (req, res) => {
   const { number, fake } = req.body
   const userId = Db.newUser({ phone: number })
 
