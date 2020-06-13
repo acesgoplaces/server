@@ -18,7 +18,7 @@ const newUser = ({ phone }) => {
     .push({
       id,
       phone,
-      locations: [],
+      locations: null,
       photos: [],
       orientation: null,
       battery: null,
@@ -35,7 +35,7 @@ const addLocation = ({
   userId
 }) => db.get(`users`)
   .find({ id: userId })
-  .update(`locations`, locations => [...locations, location])
+  .set(`location`, location)
   .write()
 
 const setOrientation = ({
