@@ -11,15 +11,19 @@ const upload = multer({ dest: 'uploads/' })
 const app = express()
 app.use(bodyParser.json())
 
-// app.use((req, res, next) => {
-//   if (!req.header(`User-Id`)) {
-//     res.status(400).send(`Missing User-Id header`)
-//   }
-//   next()
-// })
+app.use((req, res, next) => {
+  if (!req.header(`User-Id`)) {
+    res.status(400).send(`Missing User-Id header`)
+  }
+  next()
+})
 
 app.get(`/`, (req, res) => res.send(
   Db.addLocation({ userId: `1`, location: `s` }))
+)
+
+app.get(`/user/:userId`, (req, res) => res.json(
+  Db.getUser({ userId: req.params.userId }))
 )
 
 app.post(`/new`, (req, res) => {
@@ -28,14 +32,13 @@ app.post(`/new`, (req, res) => {
 })
 
 app.post(`/location`, (req, res) => {
-  // const userId = req.header(`User-Id`)
-  const userId = `1`
-
+  const userId = req.header(`User-Id`)
   const { location } = req.body
   return res.json(Db.addLocation({ location, userId }))
 })
 
 app.put(`/orientation`, (req, res) => {
+  const userId = req.header(`User-Id`)
   const { orientation } = req.body
   return res.json(Db.setOrientation({ orientation, userId }))
 })
@@ -49,6 +52,8 @@ app.post(`/photo`, upload.single('photo'), async (req, res) => {
     return res.status(400).send(`No file uploaded`)
   }
 
+  const userId = req.header(`User-Id`)
+
   const { file } = req
   const fileData = fs.readFileSync(file.path)
 
@@ -58,7 +63,7 @@ app.post(`/photo`, upload.single('photo'), async (req, res) => {
   })
 
   await Db.addPhoto({
-    userId: `1`,
+    userId,
     photoURL: url,
   })
   return res.send(url)
