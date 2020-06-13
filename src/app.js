@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import multer from 'multer'
 import fs from 'fs'
 import cors from 'cors'
+import morgan from 'morgan'
 
 import Db from './lib/Db'
 import S3 from './lib/S3'
@@ -13,6 +14,7 @@ const upload = multer({ dest: 'uploads/' })
 const app = express()
 app.use(cors())
 app.use(bodyParser.json())
+app.use(morgan('tiny'))
 
 const endUserRoute = (req, res, next) => {
   if (!req.header(`User-Id`)) {
@@ -37,7 +39,7 @@ app.post(`/call`, async (req, res) => {
   if (!fake) { // because SMSes are expensive
     await SMS({
       to: `65${number}`,
-      from: `995`,
+      from: `SCDF`,
       body: `Please share your location with our 995 operator by pressing this link: https://scdf.tech/l/${userId}`
     })
   }
