@@ -88,7 +88,7 @@ const receivePhoto = async (req, res) => {
   })
   console.log(url)
 
-  const result = await Db.addPhoto({
+  const result = Db.addPhoto({
     userId,
     photoURL: url,
   })
