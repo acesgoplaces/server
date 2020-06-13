@@ -57,10 +57,15 @@ const setBattery = ({
 const addPhoto = ({
   photoURL,
   userId,
-}) => db.get(`users`)
-  .find({ id: userId })
-  .update(`photos`, photos => [...photos, photoURL])
-  .write()
+}) => {
+  const photos = db.get(`users`)
+    .find({ id: userId })
+    .get(`photos`)
+    .value()
+  return db.get(`users`)
+    .find({ id: userId })
+    .set(`photos`, [...photos, photoURL])
+}
 
 export default {
   getUser,
