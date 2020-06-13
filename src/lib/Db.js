@@ -18,7 +18,7 @@ const newUser = ({ phone }) => {
     .push({
       id,
       phone,
-      locations: null,
+      location: null,
       photos: [],
       orientation: null,
       battery: null,
@@ -62,6 +62,7 @@ const addPhoto = ({
     .find({ id: userId })
     .get(`photos`)
     .value()
+  console.log(photos, typeof photos)
   return db.get(`users`)
     .find({ id: userId })
     .set(`photos`, [...photos, photoURL])
