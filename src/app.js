@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import multer from 'multer'
 import fs from 'fs'
+import cors from 'cors'
 
 import Db from './lib/Db'
 import S3 from './lib/S3'
@@ -9,6 +10,7 @@ import S3 from './lib/S3'
 const upload = multer({ dest: 'uploads/' })
 
 const app = express()
+app.use(cors())
 app.use(bodyParser.json())
 
 const endUserRoute = (req, res, next) => {
