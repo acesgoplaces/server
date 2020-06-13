@@ -24,6 +24,7 @@ const uploadFile = async ({ fileName, body, meta }) => {
     Body: body,
     Metadata: meta,
   }).promise()
+  console.log(result, `https://${IBM_S3_ENDPOINT}/${IBM_S3_BUCKET}/${fileName}`)
   return `https://${IBM_S3_ENDPOINT}/${IBM_S3_BUCKET}/${fileName}`
 }
 

@@ -86,11 +86,13 @@ const receivePhoto = async (req, res) => {
     fileName: file.filename,
     body: fileData
   })
+  console.log(url)
 
-  await Db.addPhoto({
+  const result = await Db.addPhoto({
     userId,
     photoURL: url,
   })
+  console.log(result)
   return res.send(url)
 }
 app.route(`/photo`)
