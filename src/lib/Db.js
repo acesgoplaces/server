@@ -10,6 +10,8 @@ import Utils from './Utils'
 const adapter = new FileSync(`${process.env.DB_PATH}/db.json`)
 const db = lowdb(adapter)
 
+db.defaults({ users: [] }).write()
+
 const newUser = () => {
   const id = Utils.randomString(5)
   db.get(`users`)
