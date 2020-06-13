@@ -7,7 +7,17 @@
         "s",
         "s",
         "s"
+      ],
+      "photos": [
+        "https://s3.us-east.cloud-object-storage.appdomain.cloud/aces-go-places-storage/d00d39844458d03b07db501452b82cdb"
       ]
+    },
+    {
+      "id": "iwrey",
+      "locations": [],
+      "photos": [],
+      "orientation": null,
+      "battery": null
     }
   ]
 }
