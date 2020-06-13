@@ -68,9 +68,14 @@ app.route(`/orientation`)
   .put(endUserRoute, receiveOrientation)
   .options(receiveOrientation)
 
-app.put(`/battery`, endUserRoute, (req, res) => {
-
-})
+const receiveBattery = (req, res) => {
+  const userId = req.header(`User-Id`)
+  const { orientation } = req.body
+  return res.json(Db.setBattery({ battery, userId }))
+}
+app.route(`/battery`)
+  .put(endUserRoute, receiveBattery)
+  .options(receiveBattery)
 
 const receivePhoto = async (req, res) => {
   if (!req.file || req.file.length === 0) {
