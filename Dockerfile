@@ -9,4 +9,5 @@ COPY . .
 
 EXPOSE 8000
 USER node
+RUN mkdir dist
 CMD ["npm", "run", "start:prod"]
