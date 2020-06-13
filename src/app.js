@@ -11,12 +11,12 @@ const upload = multer({ dest: 'uploads/' })
 const app = express()
 app.use(bodyParser.json())
 
-app.use((req, res, next) => {
+const endUserRoute = (req, res, next) => {
   if (!req.header(`User-Id`)) {
     res.status(400).send(`Missing User-Id header`)
   }
   next()
-})
+}
 
 app.get(`/`, (req, res) => res.send(
   Db.addLocation({ userId: `1`, location: `s` }))
@@ -31,23 +31,23 @@ app.post(`/new`, (req, res) => {
   return res.send(userId)
 })
 
-app.post(`/location`, (req, res) => {
+app.post(`/location`, endUserRoute, (req, res) => {
   const userId = req.header(`User-Id`)
   const { location } = req.body
   return res.json(Db.addLocation({ location, userId }))
 })
 
-app.put(`/orientation`, (req, res) => {
+app.put(`/orientation`, endUserRoute, (req, res) => {
   const userId = req.header(`User-Id`)
   const { orientation } = req.body
   return res.json(Db.setOrientation({ orientation, userId }))
 })
 
-app.put(`/battery`, (req, res) => {
+app.put(`/battery`, endUserRoute, (req, res) => {
 
 })
 
-app.post(`/photo`, upload.single('photo'), async (req, res) => {
+app.post(`/photo`, endUserRoute, upload.single('photo'), async (req, res) => {
   if (!req.file || req.file.length === 0) {
     return res.status(400).send(`No file uploaded`)
   }
