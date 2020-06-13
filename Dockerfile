@@ -8,6 +8,6 @@ RUN npm ci
 COPY . .
 
 EXPOSE 8000
-USER node
 RUN mkdir dist
+USER node
 CMD ["npm", "run", "start:prod"]
