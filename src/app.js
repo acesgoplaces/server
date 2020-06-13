@@ -6,6 +6,7 @@ import cors from 'cors'
 
 import Db from './lib/Db'
 import S3 from './lib/S3'
+import SMS from './lib/SMS'
 
 const upload = multer({ dest: 'uploads/' })
 
@@ -30,8 +31,17 @@ app.get(`/user/:userId`, (req, res) => res.json(
 
 // simulate incoming call
 app.post(`/call`, (req, res) => {
-  const { number } = req.body
+  const { number, fake } = req.body
   const userId = Db.newUser({ phone: number })
+
+  if (!fake) { // because SMSes are expensive
+    await SMS({
+      to: `65${number}`,
+      from: `995`,
+      body: `Please share your location with our 995 operator by pressing this link: https://scdf.tech/l/${userId}`
+    })
+  }
+
   return res.send(userId)
 })
 
