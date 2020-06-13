@@ -26,8 +26,10 @@ app.get(`/user/:userId`, (req, res) => res.json(
   Db.getUser({ userId: req.params.userId }))
 )
 
-app.post(`/new`, (req, res) => {
-  const userId = Db.newUser()
+// simulate incoming call
+app.post(`/call`, (req, res) => {
+  const { number } = req.body
+  const userId = Db.newUser({ phone: number })
   return res.send(userId)
 })
 

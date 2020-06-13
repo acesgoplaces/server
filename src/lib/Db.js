@@ -12,11 +12,12 @@ const db = lowdb(adapter)
 
 db.defaults({ users: [] }).write()
 
-const newUser = () => {
+const newUser = ({ phone }) => {
   const id = Utils.randomString(5)
   db.get(`users`)
     .push({
       id,
+      phone,
       locations: [],
       photos: [],
       orientation: null,
