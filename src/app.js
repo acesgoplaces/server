@@ -32,7 +32,7 @@ app.get(`/user/:userId`, (req, res) => res.json(
 )
 
 // simulate incoming call
-app.post(`/call`, async (req, res) => {
+const simulateCall = async (req, res) => {
   const { number, fake } = req.body
   const userId = Db.newUser({ phone: number })
 
@@ -45,25 +45,34 @@ app.post(`/call`, async (req, res) => {
   }
 
   return res.send(userId)
-})
+}
+app.route(`/call`)
+  .post(simulateCall)
+  .options(simulateCall)
 
-app.post(`/location`, endUserRoute, (req, res) => {
+const receiveLocation = (req, res) => {
   const userId = req.header(`User-Id`)
   const { location } = req.body
   return res.json(Db.addLocation({ location, userId }))
-})
+}
+app.route(`/location`)
+  .put(endUserRoute, receiveLocation)
+  .options(receiveLocation)
 
-app.put(`/orientation`, endUserRoute, (req, res) => {
+const receiveOrientation = (req, res) => {
   const userId = req.header(`User-Id`)
   const { orientation } = req.body
   return res.json(Db.setOrientation({ orientation, userId }))
-})
+}
+app.route(`/orientation`)
+  .put(endUserRoute, receiveOrientation)
+  .options(receiveOrientation)
 
 app.put(`/battery`, endUserRoute, (req, res) => {
 
 })
 
-app.post(`/photo`, endUserRoute, upload.single('photo'), async (req, res) => {
+const receivePhoto = async (req, res) => {
   if (!req.file || req.file.length === 0) {
     return res.status(400).send(`No file uploaded`)
   }
@@ -83,7 +92,10 @@ app.post(`/photo`, endUserRoute, upload.single('photo'), async (req, res) => {
     photoURL: url,
   })
   return res.send(url)
-})
+}
+app.route(`/photo`)
+  .post(endUserRoute, upload.single('photo'), receivePhoto)
+  .options(receivePhoto)
 
 app.listen(
   8000,
