@@ -31,6 +31,8 @@ app.get(`/user/:userId`, (req, res) => res.json(
   Db.getUser({ userId: req.params.userId }))
 )
 
+app.get(`/user`, (req, res) => res.json(Db.getUsers()))
+
 // simulate incoming call
 const simulateCall = async (req, res) => {
   const { number, fake } = req.body

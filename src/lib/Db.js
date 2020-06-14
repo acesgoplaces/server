@@ -29,6 +29,7 @@ const newUser = ({ phone }) => {
 
 
 const getUser = ({ userId }) => db.get(`users`).find({ id: userId }).value()
+const getUsers = () => db.get(`users`).value()
 
 const addLocation = ({
   location,
@@ -65,6 +66,7 @@ const addPhoto = ({
 
 export default {
   getUser,
+  getUsers,
   addLocation,
   setOrientation,
   setBattery,
